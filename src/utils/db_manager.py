@@ -150,8 +150,8 @@ def select_old_messages_query() -> TextClause:
     return text(query)
 
 
-def delete_messages_by_message_ids_query(message_ids: str) -> TextClause:
-    query = '''DELETE FROM db_shopping_list.tmessage WHERE message_id IN (:message_ids);'''
+def delete_messages_by_message_ids_query(message_ids: list) -> TextClause:
+    query = '''DELETE FROM db_shopping_list.tmessage WHERE message_id = ANY(:message_ids);'''
     return text(query).bindparams(message_ids=message_ids)
 
 

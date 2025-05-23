@@ -139,16 +139,15 @@ async def clear_old_messages(bot: Bot):
     if not result:
         logger.info(f'old messages not found')
         return
-    message_ids = ''
+    message_ids = list()
     for row in result:
-        chat_id = int(row[0])
-        message_id = int(row[1])
+        chat_id = row[0]
+        message_id = row[1]
         try:
             await bot.delete_message(chat_id=chat_id, message_id=message_id)
             logger.info(f'old message message_id was deleted from tg')
         except exceptions.TelegramBadRequest as ex:
             logger.error(f'chat_id = {chat_id}, message_id = {message_id}: {ex}')
-        message_ids += str(row[1]) + ','
-    message_ids = message_ids[:-1]
+        message_ids.append(row[1])
     await db.sql_modify(db.delete_messages_by_message_ids_query(message_ids))
     logger.info(f'old messages ({message_ids}) was deleted from db')
