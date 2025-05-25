@@ -28,7 +28,11 @@ async def start():
     dp = Dispatcher()
 
     scheduler = AsyncIOScheduler(timezone='Europe/Moscow')
-    scheduler.add_job(clear_old_messages, trigger='interval', minutes=1, kwargs={'bot': bot})
+    scheduler.add_job(clear_old_messages,
+                      trigger='interval',
+                      hours=settings.INTERVAL_CLEAR_MSG_HOURS,
+                      kwargs={'bot': bot})
+
     scheduler.start()
     dp.update.middleware.register(MiddlewareScheduler(scheduler))
 

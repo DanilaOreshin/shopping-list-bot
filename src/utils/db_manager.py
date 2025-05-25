@@ -144,10 +144,10 @@ def delete_messages_by_chat_id_query(chat_id: int) -> TextClause:
     return text(query).bindparams(chat_id=chat_id)
 
 
-def select_old_messages_query() -> TextClause:
+def select_old_messages_query(interval: str) -> TextClause:
     query = '''SELECT tm.chat_id, tm.message_id FROM db_shopping_list.tmessage tm 
-                WHERE tm.create_date < now() - INTERVAL '1 day';'''
-    return text(query)
+                WHERE tm.create_date < now() - INTERVAL :interval;'''
+    return text(query).bindparams(interval=interval)
 
 
 def delete_messages_by_message_ids_query(message_ids: list) -> TextClause:

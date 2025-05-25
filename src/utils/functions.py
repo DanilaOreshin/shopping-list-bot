@@ -3,6 +3,7 @@ from aiogram import exceptions
 from aiogram.types import Message, CallbackQuery
 
 from src.config import messages as m
+from src.config.bot_settings import settings
 from src.keyboards import keyboard_builder as kb
 from src.keyboards.button import Button
 from src.utils import db_manager as db, message_sender as ms
@@ -135,7 +136,7 @@ async def get_list_preview_message(message: Message, list_id: int):
 
 async def clear_old_messages(bot: Bot):
     logger.info(f'search old messages')
-    result = await db.sql_select(db.select_old_messages_query())
+    result = await db.sql_select(db.select_old_messages_query(settings.INTERVAL_OLD_MSG_PERIOD))
     if not result:
         logger.info(f'old messages not found')
         return
