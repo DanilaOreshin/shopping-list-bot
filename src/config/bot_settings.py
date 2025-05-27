@@ -21,7 +21,7 @@ class BotSettings(BaseSettings):
         # postgresql+asyncpg://postgres:postgres@localhost:5432/postgres
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
-    model_config = SettingsConfigDict(env_file="resources/config_backup.env")
+    model_config = SettingsConfigDict(env_file="resources/config.env")
 
 
 settings = BotSettings()
